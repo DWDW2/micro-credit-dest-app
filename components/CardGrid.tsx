@@ -1,9 +1,7 @@
 import React from "react";
 import Card from "./Card";
 
-type Props = {};
-
-export default function CardGrid({}: Props) {
+export default function CardGrid() {
   return (
     <>
       <section className="grid grid-cols-1 w-full py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-10">

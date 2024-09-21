@@ -1,101 +1,13 @@
-import Image from "next/image";
+import Card from "./_components/Card";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <>
+      <Card
+        title="Лучшие займы"
+        imageLink="data:image/png;base64,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"
+        theBestChoice={true}
+      />
+    </>
   );
 }

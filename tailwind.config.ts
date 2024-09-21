@@ -9,8 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "#f5f4f2",
+        primary: "#002938",
+        primaryText: "#181e24",
+      },
+      letterSpacing: {
+        title: "0.035em",
+      },
+      fontFamily: {
+        aeroport: "var(--font-aeroport)",
       },
     },
   },

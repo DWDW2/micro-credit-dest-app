@@ -18,4 +18,9 @@ const aeroport = LocalFont({
   variable: "--font-aeroport",
 });
 
-export { aeroport, inter };
+const aeroportRegular = LocalFont({
+  src: "./fonts/Aeroport-regular-trial.otf",
+  variable: "--font-aeroportRegular",
+});
+
+export { aeroport, inter, aeroportRegular };

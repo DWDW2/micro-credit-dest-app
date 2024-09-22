@@ -5,11 +5,10 @@ import {
   AccordionTrigger,
   AccordionItem,
 } from "./ui/accordion";
-type Props = {};
 
-export default function Faq({}: Props) {
+export default function Faq() {
   return (
-    <div className="bg-white rounded-2xl p-5 space-y-10">
+    <div className="bg-white rounded-xl p-5 space-y-10">
       <div className="font-aeroport text-2xl lg:text-3xl">
         Что важно знать о микрокредитах
       </div>

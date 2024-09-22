@@ -1,9 +1,19 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Card from "./Card";
+import { SortAscIcon, SortDescIcon } from "lucide-react";
 
 export default function CardGrid() {
+  const [active, setActive] = useState(false);
   return (
     <>
+      <div
+        className="flex flex-row space-x-3 cursor-pointer"
+        onClick={() => setActive(!active)}
+      >
+        {active ? <SortAscIcon size={20} /> : <SortDescIcon size={20} />}
+        <div className="font-aeroportRegular text-base">Сортивка</div>
+      </div>
       <section className="grid grid-cols-1 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
         <Card
           title="Лучшие займы"

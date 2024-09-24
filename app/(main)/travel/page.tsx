@@ -1,4 +1,4 @@
-import { Calc } from "@/components/travel/Calc";
+import Cards from "@/components/travel/Cards";
 import { CalcRefactored } from "@/components/travel/Refactor";
 import React from "react";
 
@@ -8,6 +8,7 @@ export default function page({}: Props) {
   return (
     <div>
       <CalcRefactored />
+      <Cards />
     </div>
   );
 }

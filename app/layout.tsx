@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { aeroport, aeroportRegular, inter, openSans } from "./fonts";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +19,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${aeroportRegular.variable} ${aeroport.variable} ${openSans.variable} antialiased bg-background`}
       >
+        {/* <Navbar /> */}
         {children}
+        <Footer />
       </body>
     </html>
   );

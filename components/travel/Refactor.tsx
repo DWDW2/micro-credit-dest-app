@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import { useState } from "react";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   Select,
   SelectTrigger,
@@ -34,7 +34,7 @@ export function CalcRefactored() {
   const [results, setResults] = useState<APIResponse[]>([]);
   const [error, setError] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  console.log(error);
   const countries = [
     "Австралия",
     "Австрия",
@@ -208,7 +208,14 @@ export function CalcRefactored() {
     options: InsuranceOption | InsuranceOption[] | InsuranceOption[][]
   ): JSX.Element => {
     if (isSingleOption(options)) {
-      return <p>{options.premium} тенге</p>;
+      return (
+        <p>
+          {options.discounted_premium
+            ? options.discounted_premium
+            : options.premium}{" "}
+          тенге
+        </p>
+      );
     }
 
     if (isOptionArray(options)) {
@@ -216,7 +223,12 @@ export function CalcRefactored() {
         <ul>
           {options.map((option, index) => (
             <li key={index} className="mb-2">
-              <p>{option.premium} тенге</p>
+              <p>
+                {option.discounted_premium
+                  ? option.discounted_premium
+                  : option.premium}{" "}
+                тенге
+              </p>
             </li>
           ))}
         </ul>
@@ -232,7 +244,13 @@ export function CalcRefactored() {
             <ul>
               {optionGroup.map((option, optionIndex) => (
                 <li key={optionIndex} className="mb-2">
-                  <p>Стоимость: {option.premium} тенге</p>
+                  <p>
+                    Стоимость:{" "}
+                    {option.discounted_premium
+                      ? option.discounted_premium
+                      : option.premium}{" "}
+                    тенге
+                  </p>
                 </li>
               ))}
             </ul>
@@ -331,9 +349,9 @@ export function CalcRefactored() {
               .map((result, index) => (
                 <Card
                   key={result.insurance_company.name}
-                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 bg-white rounded-xl border-0 shadow-none"
+                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 md:space-y-0 bg-white rounded-xl border-0 shadow-none"
                 >
-                  <div className="flex items-center space-x-4 md:w-[25%]">
+                  <div className="flex items-center space-x-2 md:space-x-4 md:w-[25%]">
                     <img
                       src={`${result.insurance_company.name}.svg`}
                       onError={(e) => {
@@ -356,8 +374,8 @@ export function CalcRefactored() {
                         )}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4 md:w-[25%]">
-                    <span className="font-bold font-sans  mx-auto">
+                  <div className="flex items-center md:w-[25%]">
+                    <span className="font-bold font-sans mx-auto">
                       <p className="text-sm text-secondaryText">
                         Страховая сумма
                       </p>
@@ -367,13 +385,13 @@ export function CalcRefactored() {
                       USD
                     </span>
                   </div>
-                  <div className="flex items-center space-x-4 md:w-[25%]">
-                    <span className="font-bold font-sans  mx-auto">
+                  <div className="flex items-center md:w-[25%]">
+                    <span className="font-bold font-sans mx-auto">
                       <p className="text-sm text-secondaryText">Цена</p>
                       {renderInsuranceOptions(result.results[0])}
                     </span>
                   </div>
-                  <div className="flex items-center space-x-4 flex-col md:w-[25%]">
+                  <div className="flex items-center flex-col md:w-[25%]">
                     {result.insurance_company.name.toLowerCase() === "nomad" ? (
                       <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>

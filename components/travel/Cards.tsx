@@ -4,12 +4,14 @@ type Props = {};
 
 export default function Cards({}: Props) {
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto p-8">
+    <div className="space-y-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto p- max-w-6xl">
         <Card className="md:row-span-2 p-8 bg-white shadow-md flex flex-col h-full relative overflow-hidden">
           <div className="z-10">
-            <h2 className="text-4xl font-bold mb-4">Идеально для визы</h2>
-            <p className="text-gray-600 text-xl mb-8 max-w-[70%]">
+            <h2 className="text-4xl font-bold mb-4 font-aeroport">
+              Идеально для визы
+            </h2>
+            <p className="text-gray-600 text-xl mb-8 max-w-[70%] font-aeroportRegular">
               Мы поможем выбрать страховку для путешествия в любую точку мира.
             </p>
           </div>
@@ -23,8 +25,8 @@ export default function Cards({}: Props) {
         </Card>
 
         <Card className="p-8 bg-white shadow-md">
-          <h2 className="text-2xl font-bold mb-3">Выгодно</h2>
-          <p className="text-gray-600">
+          <h2 className="text-2xl font-bold mb-3 font-aeroport">Выгодно</h2>
+          <p className="text-gray-600 font-aeroportRegular">
             Стоимость страховых полисов может различаться. Мы рассчитаем
             стоимость в нескольких компаниях, чтобы вы могли выбрать самый
             выгодный вариант.
@@ -32,16 +34,18 @@ export default function Cards({}: Props) {
         </Card>
 
         <Card className="p-8 bg-white shadow-md">
-          <h3 className="text-2xl font-bold mb-3">Без комиссии</h3>
-          <p className="text-gray-600">
+          <h3 className="text-2xl font-bold mb-3 font-aeroport">
+            Без комиссии
+          </h3>
+          <p className="text-gray-600 font-aeroportRegular">
             Наш сервис полностью бесплатен для пользователей. Полисы
             предлагаются по ценам страховых компаний без дополнительных наценок.
           </p>
         </Card>
       </div>
 
-      <div className="max-w-6xl mx-auto p-8">
-        <h3 className="text-4xl font-bold mb-10">
+      <div className="mx-auto p-8 bg-white rounded-xl max-w-6xl">
+        <h3 className="text-4xl font-bold mb-10 font-aeroport">
           Как оформить туристическую страховку
         </h3>
 
@@ -53,7 +57,7 @@ export default function Cards({}: Props) {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center font-opensans">
             <ul className="space-y-6 text-lg">
               <li className="flex items-start">
                 <span className="w-3 h-3 bg-black rounded-full mt-2 mr-4 flex-shrink-0"></span>
@@ -80,12 +84,12 @@ export default function Cards({}: Props) {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto p-8">
+      <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl">
         <div className="max-w-6xl mx-auto ">
-          <h2 className="text-4xl font-bold mb-10">
+          <h2 className="text-4xl font-bold mb-10 font-aeroport">
             Что делать если что-то случилось
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-aeroportRegular">
             <Card className="p-8 bg-white shadow-md">
               <h3 className="text-xl font-bold mb-2">
                 Обратитесь к вашему ассистансу
@@ -116,6 +120,6 @@ export default function Cards({}: Props) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

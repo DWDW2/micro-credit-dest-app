@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { aeroport, aeroportRegular, inter } from "./fonts";
+import { aeroport, aeroportRegular, inter, openSans } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${aeroportRegular.variable} ${aeroport.variable} antialiased bg-background`}
+        className={`${inter.className} ${aeroportRegular.variable} ${aeroport.variable} ${openSans.variable} antialiased bg-background`}
       >
         {children}
       </body>

@@ -13,6 +13,7 @@ const config: Config = {
         background: "#f5f4f2",
         primary: "#002938",
         primaryText: "#181e24",
+        secondaryText: "#636f7d",
       },
       letterSpacing: {
         title: "0.035em",
@@ -20,6 +21,7 @@ const config: Config = {
       fontFamily: {
         aeroport: "var(--font-aeroport)",
         aeroportRegular: "var(--font-aeroportRegular)",
+        opensans: "var(--font-sans)",
       },
       borderRadius: {
         lg: "var(--radius)",

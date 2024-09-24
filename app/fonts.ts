@@ -1,5 +1,5 @@
 import LocalFont from "next/font/local";
-import { Inter } from "next/font/google";
+import { Inter, Open_Sans } from "next/font/google";
 
 const inter = Inter({
   subsets: [
@@ -23,4 +23,10 @@ const aeroportRegular = LocalFont({
   variable: "--font-aeroportRegular",
 });
 
-export { aeroport, inter, aeroportRegular };
+const openSans = Open_Sans({
+  weight: ["300", "400", "500", "600", "700", "800"],
+  subsets: ["cyrillic"],
+  variable: "--font-sans",
+});
+
+export { aeroport, inter, aeroportRegular, openSans };

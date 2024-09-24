@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import {
   Select,
@@ -24,9 +24,8 @@ import { Badge } from "@/components/ui/badge";
 import React from "react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import TravelInsuranceDialog from "./TravelDiolog";
-import Cards from "./Cards";
 
-export function Calc() {
+export function CalcRefactored() {
   const [country, setCountry] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -107,30 +106,6 @@ export function Calc() {
     "Япония",
   ];
 
-  const FloatingLabel = ({
-    id,
-    label,
-    children,
-  }: {
-    id: string;
-    label: string;
-    children: React.ReactNode;
-  }) => (
-    <div className="relative pt-6">
-      <label
-        htmlFor={id}
-        className={`absolute text-sm transition-all duration-200 ${
-          React.isValidElement(children) && children.props.value
-            ? "-top-1 left-2 text-xs text-gray-500"
-            : "top-1/2 left-3 -translate-y-1/2 text-gray-400"
-        }`}
-      >
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-
   const handleGetPrice = async (): Promise<void> => {
     if (!startDate || !endDate || !country || !age) {
       setError("Please select both start and end dates.");
@@ -142,7 +117,7 @@ export function Calc() {
     setResults([]);
 
     const endpoints = [
-      "s",
+      "https://bestoffer.kz/api/mst/amanat",
       "https://bestoffer.kz/api/mst/interteach",
       "https://bestoffer.kz/api/mst/asko",
       "https://bestoffer.kz/api/mst/freedom",
@@ -165,7 +140,7 @@ export function Calc() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-          timeout: 10000,
+          timeout: 50000,
         })
       );
 
@@ -217,7 +192,6 @@ export function Calc() {
       setIsLoading(false);
     }
   };
-
   const isSingleOption = (
     option: InsuranceOption | InsuranceOption[] | InsuranceOption[][]
   ): option is InsuranceOption => {
@@ -248,7 +222,6 @@ export function Calc() {
         </ul>
       );
     }
-
     return (
       <>
         {options.map((optionGroup, groupIndex) => (
@@ -270,81 +243,69 @@ export function Calc() {
   };
 
   return (
-    <div className="p-8 bg-white">
-      <div className="max-w-6xl mx-auto p-8">
+    <div className="p-8 space-y-4">
+      <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <FloatingLabel id="country" label="Куда поедете">
-            <Select value={country} onValueChange={setCountry}>
-              <SelectTrigger id="country">
-                <SelectValue placeholder="Куда поедете" />
-              </SelectTrigger>
-              <SelectContent>
-                {countries.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FloatingLabel>
-
-          <FloatingLabel id="startDate" label="Уезжаете">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={`w-full justify-start text-left font-normal ${
-                    !startDate && "text-muted-foreground"
-                  }`}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {startDate ? format(startDate, "PPP") : "Уезжаете"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={startDate}
-                  onSelect={setStartDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </FloatingLabel>
-
-          <FloatingLabel id="endDate" label="Возвращаетесь">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={`w-full justify-start text-left font-normal ${
-                    !endDate && "text-muted-foreground"
-                  }`}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {endDate ? format(endDate, "PPP") : "Возвращаетесь"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={endDate}
-                  onSelect={setEndDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </FloatingLabel>
-
-          <FloatingLabel id="age" label="Возраст туриста">
-            <Input
-              type="number"
-              placeholder="Возраст туриста"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-            />
-          </FloatingLabel>
-
+          <Select value={country} onValueChange={setCountry}>
+            <SelectTrigger id="country">
+              <SelectValue placeholder="Куда поедете" />
+            </SelectTrigger>
+            <SelectContent>
+              {countries.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={`w-full justify-start text-left font-normal ${
+                  !startDate && "text-muted-foreground"
+                }`}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDate ? format(startDate, "PPP") : "Уезжаете"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={setStartDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={`w-full justify-start text-left font-normal ${
+                  !endDate && "text-muted-foreground"
+                }`}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {endDate ? format(endDate, "PPP") : "Возвращаетесь"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={endDate}
+                onSelect={setEndDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <Input
+            type="number"
+            placeholder="Возраст туриста"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
           <Button
             className="bg-[#00303f] text-white mt-4"
             onClick={handleGetPrice}
@@ -355,10 +316,8 @@ export function Calc() {
         </div>
       </div>
 
-      {error && <p className="text-red-500 mt-4">{error}</p>}
-
       {results.length > 0 && (
-        <div className="max-w-6xl mx-auto p-8">
+        <div className="max-w-6xl mx-auto">
           <h2 className="text-xl font-bold mb-2">Результаты:</h2>
           <div className="space-y-4">
             {results
@@ -372,9 +331,9 @@ export function Calc() {
               .map((result, index) => (
                 <Card
                   key={result.insurance_company.name}
-                  className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
+                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 bg-white rounded-xl border-0 shadow-none"
                 >
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-4 md:w-[25%]">
                     <img
                       src={`${result.insurance_company.name}.svg`}
                       onError={(e) => {
@@ -382,38 +341,45 @@ export function Calc() {
                         e.currentTarget.src = `${result.insurance_company.name}.png`;
                       }}
                       alt={result.insurance_company.name}
-                      className="w-16 h-16 object-contain"
+                      className="w-16 h-16 object-contain rounded-xl border-2 border-gray-300 p-1"
                     />
                     <div>
-                      <h3 className="text-lg font-semibold">
+                      <h3 className="font-aeroport text-xl font-bold">
                         {result.insurance_company.name}
                       </h3>
                       {index === 0 &&
                         result.insurance_company.name.toLowerCase() ===
                           "nomad" && (
-                          <Badge className="bg-green-500 text-white">
+                          <Badge className="bg-green-500 text-white font-aeroport">
                             Лучший выбор
                           </Badge>
                         )}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <span className="font-opensans">
-                      <p>Страховая сумма</p>
+                  <div className="flex items-center space-x-4 md:w-[25%]">
+                    <span className="font-bold font-sans  mx-auto">
+                      <p className="text-sm text-secondaryText">
+                        Страховая сумма
+                      </p>
                       {Array.isArray(result.results[0])
                         ? result.results[0][0].value
                         : result.results[0].value}{" "}
                       USD
                     </span>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <span className="text-xl font-bold">
+                  <div className="flex items-center space-x-4 md:w-[25%]">
+                    <span className="font-bold font-sans  mx-auto">
+                      <p className="text-sm text-secondaryText">Цена</p>
                       {renderInsuranceOptions(result.results[0])}
                     </span>
+                  </div>
+                  <div className="flex items-center space-x-4 flex-col md:w-[25%]">
                     {result.insurance_company.name.toLowerCase() === "nomad" ? (
                       <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
-                          <Button>Оформить страховку</Button>
+                          <Button className="font-aeroportRegular">
+                            Оформить страховку
+                          </Button>
                         </DialogTrigger>
                         <TravelInsuranceDialog
                           countryId={result.country.external_info.id}
@@ -423,13 +389,13 @@ export function Calc() {
                         />
                       </Dialog>
                     ) : (
-                      <Button asChild>
+                      <Button asChild className="font-aeroportRegular">
                         <a
                           href={result.insurance_company.main_page}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Visit Our Site
+                          Поситите наш сайт
                         </a>
                       </Button>
                     )}
@@ -439,7 +405,6 @@ export function Calc() {
           </div>
         </div>
       )}
-      <Cards />
     </div>
   );
 }

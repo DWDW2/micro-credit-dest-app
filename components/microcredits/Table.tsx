@@ -6,7 +6,7 @@ import {
   TableRow,
   TableCell,
   TableHeader,
-} from "./ui/table";
+} from "../ui/table";
 
 export default function DataTable() {
   return (

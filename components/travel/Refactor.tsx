@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   Select,
   SelectTrigger,
@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import React from "react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import TravelInsuranceDialog from "./TravelDiolog";
+import { Skeleton } from "../ui/skeleton";
 
 export function CalcRefactored() {
   const [country, setCountry] = useState<string>("");
@@ -333,6 +334,8 @@ export function CalcRefactored() {
           </Button>
         </div>
       </div>
+
+      {isLoading ? <Skeleton className="w-10 h-5" /> : <></>}
 
       {results.length > 0 && (
         <div className="max-w-6xl mx-auto">

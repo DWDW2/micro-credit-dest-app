@@ -8,7 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -18,6 +17,7 @@ interface TravelInsuranceDialogProps {
   insuranceSumId: number;
   startDate: Date;
   endDate: Date;
+  country: string;
 }
 
 interface OrderResponse {
@@ -31,6 +31,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   insuranceSumId,
   startDate,
   endDate,
+  country,
 }) => {
   const [iin, setIin] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -133,6 +134,19 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
         </div>
         */}
         <div className="space-y-4">
+          <div className="flex flex-col space-y-4">
+            <Label className="text-sm font-medium">
+              Страна: <span className="font-bold">{country}</span>
+            </Label>
+            <Label className="text-sm font-medium">
+              Уезжаете:{" "}
+              <span className="font-bold">{format(startDate, "yy-MM-dd")}</span>
+            </Label>
+            <Label className="text-sm font-medium">
+              Возвращаетесь:{" "}
+              <span className="font-bold">{format(endDate, "yy-MM-dd")}</span>
+            </Label>
+          </div>
           <div>
             <Label htmlFor="iin" className="text-sm font-medium">
               ИИН
@@ -215,7 +229,6 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
                 type="date"
                 className="pr-10"
               />
-              <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             </div>
           </div>
           <div>

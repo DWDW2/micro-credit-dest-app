@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div className="p-10 space-y-8"></div>;
+  return <div className="p-10 space-y-8">Move using navbar</div>;
 }

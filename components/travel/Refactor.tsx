@@ -25,6 +25,7 @@ import React from "react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import TravelInsuranceDialog from "./TravelDiolog";
 import { Skeleton } from "../ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export function CalcRefactored() {
   const [country, setCountry] = useState<string>("");
@@ -35,6 +36,7 @@ export function CalcRefactored() {
   const [results, setResults] = useState<APIResponse[]>([]);
   const [error, setError] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   console.log(error);
   const countries = [
     "Австралия",
@@ -265,7 +267,16 @@ export function CalcRefactored() {
     <div className="p-8 space-y-4">
       <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <Select value={country} onValueChange={setCountry}>
+          {/* {isOpenSelect ? (
+            <p className="text-sm text-gray-400">Куда поедете</p>
+          ) : (
+            <></>
+          )} */}
+          <Select
+            value={country}
+            onValueChange={setCountry}
+            onOpenChange={() => setIsOpenSelect(!isOpenSelect)}
+          >
             <SelectTrigger id="country">
               <SelectValue placeholder="Куда поедете" />
             </SelectTrigger>
@@ -352,7 +363,12 @@ export function CalcRefactored() {
               .map((result, index) => (
                 <Card
                   key={result.insurance_company.name}
-                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 md:space-y-0 bg-white rounded-xl border-0 shadow-none"
+                  className={cn(
+                    result.insurance_company.name.toLocaleLowerCase() ===
+                      "nomad"
+                      ? "flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 md:space-y-0 bg-white rounded-xl border border-[#0fd149] shadow-none"
+                      : "flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 md:space-y-0 bg-white rounded-xl border-0 shadow-none"
+                  )}
                 >
                   <div className="flex items-center space-x-4 md:space-x-4 md:w-[25%]">
                     <img
@@ -403,6 +419,7 @@ export function CalcRefactored() {
                           </Button>
                         </DialogTrigger>
                         <TravelInsuranceDialog
+                          country={country}
                           countryId={result.country.external_info.id}
                           insuranceSumId={result.results[0].external_info.id}
                           startDate={startDate ?? new Date()}

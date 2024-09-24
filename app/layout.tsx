@@ -19,7 +19,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${aeroportRegular.variable} ${aeroport.variable} ${openSans.variable} antialiased bg-background`}
       >
-        {/* <Navbar /> */}
+        <Navbar />
         {children}
         <Footer />
       </body>

@@ -10,6 +10,7 @@ export interface InsuranceOption {
 }
 
 export interface APIResponse {
+  result: any;
   insurance_company: {
     name: string;
     main_page: string;

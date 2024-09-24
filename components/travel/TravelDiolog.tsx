@@ -32,13 +32,11 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   startDate,
   endDate,
 }) => {
-  // Nomad Customer Fields
   const [iin, setIin] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
-  // Passport Fields
   const [fullNameInLatin, setFullNameInLatin] = useState("");
   const [documentNumber, setDocumentNumber] = useState("");
   const [issueDate, setIssueDate] = useState("");

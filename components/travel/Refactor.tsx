@@ -351,7 +351,7 @@ export function CalcRefactored() {
                   key={result.insurance_company.name}
                   className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 space-y-4 md:space-y-0 bg-white rounded-xl border-0 shadow-none"
                 >
-                  <div className="flex items-center space-x-2 md:space-x-4 md:w-[25%]">
+                  <div className="flex items-center space-x-4 md:space-x-4 md:w-[25%]">
                     <img
                       src={`${result.insurance_company.name}.svg`}
                       onError={(e) => {
@@ -391,11 +391,11 @@ export function CalcRefactored() {
                       {renderInsuranceOptions(result.results[0])}
                     </span>
                   </div>
-                  <div className="flex items-center flex-col md:w-[25%]">
+                  <div className="flex items-center flex-col w-full md:w-[25%]">
                     {result.insurance_company.name.toLowerCase() === "nomad" ? (
                       <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
-                          <Button className="font-aeroportRegular">
+                          <Button className="font-aeroportRegular w-full md:w-auto">
                             Оформить страховку
                           </Button>
                         </DialogTrigger>
@@ -412,6 +412,7 @@ export function CalcRefactored() {
                           href={result.insurance_company.main_page}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="w-full md:w-auto"
                         >
                           Поситите наш сайт
                         </a>

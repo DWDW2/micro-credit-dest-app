@@ -346,8 +346,6 @@ export function CalcRefactored() {
         </div>
       </div>
 
-      {isLoading ? <Skeleton className="w-10 h-5" /> : <></>}
-
       {results.length > 0 && (
         <div className="max-w-6xl mx-auto">
           <h2 className="text-xl font-bold mb-2">Результаты:</h2>
@@ -399,7 +397,7 @@ export function CalcRefactored() {
                         Страховая сумма
                       </p>
                       {Array.isArray(result.results[0])
-                        ? result.results[0][0].value
+                        ? result.results[0][0].valuexs
                         : result.results[0].value}{" "}
                       USD
                     </span>

@@ -15,11 +15,11 @@ export default function Cards({}: Props) {
               Мы поможем выбрать страховку для путешествия в любую точку мира.
             </p>
           </div>
-          <div className="absolute bottom-0 right-0 w-auto h-auto flex items-end justify-end">
+          <div className="lg:absolute block lg:bottom-0 lg:right-0 w-auto h-auto items-end justify-end">
             <img
               src={"btr.jpg"}
               alt="Travel illustration"
-              className="w-96 h-50 object-contain"
+              className="w-96 h-50 object-contain hidden lg:block"
             />
           </div>
         </Card>

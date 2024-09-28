@@ -8,7 +8,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -18,14 +17,17 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { APIResponse, InsuranceOption } from "./types/Calc.types";
+import { APIResponse, InsuranceOption } from "../_types/Calc.types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import TravelInsuranceDialog from "./TravelDiolog";
-import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
+import FloatingLabel from "./FloatingLabel";
+import PopCalendar from "./PopCalendar";
+import { Toaster } from "react-hot-toast";
+import CountrySelect from "./CountrySelect";
 
 export function CalcRefactored() {
   const [country, setCountry] = useState<string>("");
@@ -195,6 +197,7 @@ export function CalcRefactored() {
       setIsLoading(false);
     }
   };
+
   const isSingleOption = (
     option: InsuranceOption | InsuranceOption[] | InsuranceOption[][]
   ): option is InsuranceOption => {
@@ -265,77 +268,27 @@ export function CalcRefactored() {
 
   return (
     <div className="p-8 space-y-4">
+      <Toaster />
       <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          {/* {isOpenSelect ? (
-            <p className="text-sm text-gray-400">Куда поедете</p>
-          ) : (
-            <></>
-          )} */}
-          <Select
+          <CountrySelect
             value={country}
-            onValueChange={setCountry}
-            onOpenChange={() => setIsOpenSelect(!isOpenSelect)}
-          >
-            <SelectTrigger id="country">
-              <SelectValue placeholder="Куда поедете" />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={`w-full justify-start text-left font-normal ${
-                  !startDate && "text-muted-foreground"
-                }`}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {startDate ? format(startDate, "PPP") : "Уезжаете"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={startDate}
-                onSelect={setStartDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={`w-full justify-start text-left font-normal ${
-                  !endDate && "text-muted-foreground"
-                }`}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {endDate ? format(endDate, "PPP") : "Возвращаетесь"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={endDate}
-                onSelect={setEndDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          <Input
-            type="number"
-            placeholder="Возраст туриста"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
+            setAction={setCountry}
+            countries={countries}
+            isOpenSelect={isOpenSelect}
+            setIsOpenSelect={setIsOpenSelect}
           />
+          <PopCalendar
+            date={startDate}
+            setDate={setStartDate}
+            desc="Улетаете"
+          />
+          <PopCalendar
+            date={endDate}
+            setDate={setEndDate}
+            desc="Возврощаетесь"
+          />
+          <FloatingLabel />
           <Button
             className="bg-[#00303f] text-white mt-4"
             onClick={handleGetPrice}

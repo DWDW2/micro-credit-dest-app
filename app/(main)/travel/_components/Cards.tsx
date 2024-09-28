@@ -1,8 +1,7 @@
 import React from "react";
-import { Card } from "../ui/card";
-type Props = {};
+import { Card } from "@/components/ui/card";
 
-export default function Cards({}: Props) {
+export default function Cards() {
   return (
     <div className="space-y-10 p-3 md:p-0">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto p-4 md:p-0 max-w-6xl">

@@ -1,0 +1,16 @@
+import React from "react";
+
+export default function FloatingLabel() {
+  return (
+    <div className="relative">
+      <input
+        type="number"
+        className="w-full h-10 px-2 rounded-md border bg-transparent border-neutral-200 peer focus:outline-neutral-400"
+        placeholder="e.g 34"
+      />
+      <label className="text-sm text-gray-500 font-medium absolute -translate-y-1/2 left-2 peer-focus:top-0 peer-focus:text-gray-600 peer-focus:text-xs bg-white top-1/2 z-20 px-1 transition-all duration-200">
+        Возраст туриста
+      </label>
+    </div>
+  );
+}

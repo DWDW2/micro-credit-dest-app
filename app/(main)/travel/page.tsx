@@ -1,10 +1,7 @@
-import Cards from "@/components/travel/Cards";
-import { CalcRefactored } from "@/components/travel/Refactor";
 import React from "react";
-
-type Props = {};
-
-export default function page({}: Props) {
+import { CalcRefactored } from "./_components/Refactor";
+import Cards from "./_components/Cards";
+export default function page() {
   return (
     <div>
       <CalcRefactored />

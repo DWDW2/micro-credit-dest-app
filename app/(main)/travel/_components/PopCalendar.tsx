@@ -39,7 +39,7 @@ export default function PopCalendar({ setDate, date, desc }: Props) {
           <Button
             variant="outline"
             className={cn(
-              "peer w-full text-left h-10 font-normal flex flex-row justify-between relative",
+              "peer w-full text-left h-11 font-normal flex flex-row justify-between relative hover:bg-white",
               date && "text-muted-foreground"
             )}
           >

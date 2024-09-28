@@ -1,22 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { APIResponse, InsuranceOption } from "../_types/Calc.types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -39,7 +25,25 @@ export function CalcRefactored() {
   const [error, setError] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
-  console.log(error);
+  // const [countries, setCountries] = useState<string[]>([""]);
+  // console.log(error);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     // setLoading(true);
+  //     try {
+  //       const response = await axios.get<string[]>(
+  //         "https://bestoffer.kz/api/mst/countries"
+  //       );
+  //       setCountries(response?.data);
+  //     } catch (err: any) {
+  //       // setError(err.message || 'Something went wrong');
+  //     } finally {
+  //       // setLoading(false);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
+  // console.log(countries);
   const countries = [
     "Австралия",
     "Австрия",
@@ -110,7 +114,6 @@ export function CalcRefactored() {
     "Южная Корея",
     "Япония",
   ];
-
   const handleGetPrice = async (): Promise<void> => {
     if (!startDate || !endDate || !country || !age) {
       setError("Please select both start and end dates.");
@@ -288,7 +291,7 @@ export function CalcRefactored() {
             setDate={setEndDate}
             desc="Возврощаетесь"
           />
-          <FloatingLabel />
+          <FloatingLabel setAge={setAge} age={age} />
           <Button
             className="bg-[#00303f] text-white mt-4"
             onClick={handleGetPrice}

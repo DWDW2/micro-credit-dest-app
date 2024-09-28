@@ -29,7 +29,7 @@ export default function CountrySelect({
       onValueChange={setAction}
       onOpenChange={() => setIsOpenSelect(!isOpenSelect)}
     >
-      <SelectTrigger id="country" className="relative h-10 peer">
+      <SelectTrigger id="country" className="relative h-11 peer">
         <label
           className={cn(
             "text-sm text-gray-500 absolute left-2 bg-white px-2",
@@ -38,7 +38,7 @@ export default function CountrySelect({
               : "text-sm peer-focus:top-1 peer-focus:text-xs"
           )}
         >
-          Hello
+          Куда отправляетесь?
         </label>
         <SelectValue />
       </SelectTrigger>

@@ -37,12 +37,12 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-
+  const [iinError, setIinError] = useState("");
   const [fullNameInLatin, setFullNameInLatin] = useState("");
   const [documentNumber, setDocumentNumber] = useState("");
   const [issueDate, setIssueDate] = useState("");
   const [issuedBy, setIssuedBy] = useState("");
-
+  const [phoneError, setPhoneError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(
     null
@@ -105,6 +105,32 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
     }
   };
 
+  const validateIIN = (value) => {
+    if (value.length !== 12 || isNaN(value)) {
+      setIinError("IIN must be exactly 12 digits.");
+    } else {
+      setIinError("");
+    }
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    let input = e.target.value.replace(/\D/g, "");
+    if (input.length === 0) {
+      setPhoneNumber("");
+    } else {
+      let formattedNumber = "+7 (" + input.substring(1, 4);
+      if (input.length > 4) {
+        formattedNumber += ") " + input.substring(4, 7);
+      }
+      if (input.length > 7) {
+        formattedNumber += "-" + input.substring(7, 9);
+      }
+      if (input.length > 9) {
+        formattedNumber += "-" + input.substring(9, 11);
+      }
+      setPhoneNumber(formattedNumber);
+    }
+  };
   return (
     <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden flex flex-col max-h-[90vh]">
       <DialogHeader className="p-6 pb-2">
@@ -155,9 +181,11 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
               id="iin"
               value={iin}
               onChange={(e) => setIin(e.target.value)}
+              onBlur={() => validateIIN(iin)}
               placeholder="000000000000"
               className="mt-1"
             />
+            {iinError && <p className="text-red-500">{iinError}</p>}
           </div>
           <div>
             <Label htmlFor="phone" className="text-sm font-medium">
@@ -166,10 +194,11 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
             <Input
               id="phone"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={handlePhoneNumberChange}
               placeholder="+7 (___) ___-__-__"
               className="mt-1"
             />
+            {phoneError && <p className="text-red-500">{phoneError}</p>}
           </div>
           <div>
             <Label htmlFor="email" className="text-sm font-medium">

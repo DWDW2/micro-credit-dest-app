@@ -8,9 +8,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
+import { ru } from "date-fns/locale";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface TravelInsuranceDialogProps {
   countryId: number;
@@ -33,11 +35,11 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   endDate,
   country,
 }) => {
-  const [iin, setIin] = useState("");
+  const [iin, setIIN] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [iinError, setIinError] = useState("");
+  const [isValid, setIsValid] = useState<boolean | null>(null);
   const [fullNameInLatin, setFullNameInLatin] = useState("");
   const [documentNumber, setDocumentNumber] = useState("");
   const [issueDate, setIssueDate] = useState("");
@@ -47,6 +49,9 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(
     null
   );
+  const [checkVal, setCheckVal] = useState<boolean>(true);
+  const formattedDateStart = format(startDate, "d MMMM yyyy", { locale: ru });
+  const formattedDateEnd = format(endDate, "d MMMM yyyy", { locale: ru });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,15 +109,53 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       setIsSubmitting(false);
     }
   };
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setIIN(value);
 
-  const validateIIN = (value) => {
-    if (value.length !== 12 || isNaN(value)) {
-      setIinError("IIN must be exactly 12 digits.");
+    if (value.length === 12) {
+      const valid = validateIIN(value);
+      setIsValid(valid);
     } else {
-      setIinError("");
+      setIsValid(null);
     }
   };
+  function validateIIN(iin: string) {
+    if (iin.length !== 12) {
+      return false;
+    }
 
+    // Convert the IIN into an array of numbers
+    const digits = iin.split("").map(Number);
+
+    const weights1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+    // First cycle sum
+    const sum1 = digits
+      .slice(0, 11)
+      .reduce((sum, digit, index) => sum + digit * weights1[index], 0);
+
+    // Calculate mod 11 for the first cycle
+    let controlDigit = sum1 % 11;
+
+    // If control digit is 10, use the second cycle of weights
+    if (controlDigit === 10) {
+      const weights2 = [3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2];
+      const sum2 = digits
+        .slice(0, 11)
+        .reduce((sum, digit, index) => sum + digit * weights2[index], 0);
+      controlDigit = sum2 % 11;
+    }
+
+    // If the control digit is still 10, the IIN is invalid
+    if (controlDigit === 10) {
+      console.log("invalid iin");
+      return false;
+    }
+
+    // Compare the calculated control digit with the last digit of the IIN
+    return controlDigit === digits[11];
+  }
   const handlePhoneNumberChange = (e) => {
     let input = e.target.value.replace(/\D/g, "");
     if (input.length === 0) {
@@ -131,6 +174,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       setPhoneNumber(formattedNumber);
     }
   };
+
   return (
     <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden flex flex-col max-h-[90vh]">
       <DialogHeader className="p-6 pb-2">
@@ -142,50 +186,39 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
         onSubmit={handleSubmit}
         className="space-y-4 p-6 pt-0 flex-1 overflow-y-auto"
       >
-        {/*
-        <div className="bg-gray-100 p-4 rounded-md mb-4 space-y-1">
-          <h3 className="font-semibold mb-2">Информация о поездке:</h3>
-          <p>
-            <strong>Страна (ID):</strong> {countryId}
-          </p>
-          <p>
-            <strong>Страховка (ID):</strong> {insuranceSumId}
-          </p>
-          <p>
-            <strong>Дата начала:</strong> {format(startDate, "dd.MM.yyyy")}
-          </p>
-          <p>
-            <strong>Дата окончания:</strong> {format(endDate, "dd.MM.yyyy")}
-          </p>
-        </div>
-        */}
         <div className="space-y-4">
           <div className="flex flex-col space-y-4">
             <Label className="text-sm font-medium">
               Страна: <span className="font-bold">{country}</span>
             </Label>
             <Label className="text-sm font-medium">
-              Уезжаете:{" "}
-              <span className="font-bold">{format(startDate, "yy-MM-dd")}</span>
+              Уезжаете: <span className="font-bold">{formattedDateStart}</span>
             </Label>
             <Label className="text-sm font-medium">
               Возвращаетесь:{" "}
-              <span className="font-bold">{format(endDate, "yy-MM-dd")}</span>
+              <span className="font-bold">{formattedDateEnd}</span>
             </Label>
           </div>
           <div>
-            <Label htmlFor="iin" className="text-sm font-medium">
-              ИИН
-            </Label>
-            <Input
-              id="iin"
-              value={iin}
-              onChange={(e) => setIin(e.target.value)}
-              onBlur={() => validateIIN(iin)}
-              placeholder="000000000000"
-              className="mt-1"
-            />
-            {iinError && <p className="text-red-500">{iinError}</p>}
+            <div>
+              <Label htmlFor="iin" className="text-sm font-medium">
+                ИИН
+              </Label>
+              <Input
+                id="iin"
+                value={iin}
+                onChange={handleInputChange}
+                placeholder="000000000000"
+                className="mt-1"
+              />
+              {isValid === null ? (
+                <p>Please enter a 12-digit IIN.</p>
+              ) : isValid ? (
+                <p style={{ color: "green" }}>IIN is valid.</p>
+              ) : (
+                <p style={{ color: "red" }}>IIN is invalid.</p>
+              )}
+            </div>
           </div>
           <div>
             <Label htmlFor="phone" className="text-sm font-medium">
@@ -210,6 +243,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
               onChange={(e) => setEmail(e.target.value)}
               type="email"
               className="mt-1"
+              placeholder="example@gmail.com"
             />
           </div>
           <div>
@@ -221,6 +255,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               className="mt-1"
+              placeholder="Город, улица, дом, квартира"
             />
           </div>
           <div>
@@ -232,6 +267,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
               value={fullNameInLatin}
               onChange={(e) => setFullNameInLatin(e.target.value)}
               className="mt-1"
+              placeholder="Aigul Amanzholova"
             />
           </div>
           <div>
@@ -271,6 +307,16 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
               className="mt-1"
             />
           </div>
+          <div className="flex flex-row space-x-3 items-center">
+            <Checkbox
+              checked={checkVal}
+              onClick={() => setCheckVal(!checkVal)}
+            />
+            <span className="text-xs text-gray-500">
+              Отправляя заявку, вы соглашаетесь на сбор и обработку своих
+              персональных данных
+            </span>
+          </div>
         </div>
 
         {orderResponse ? (
@@ -286,7 +332,11 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
             </Button>
           </div>
         ) : (
-          <Button type="submit" className="w-full mt-6" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="w-full mt-6"
+            disabled={isSubmitting || !checkVal}
+          >
             {isSubmitting ? "Оформление..." : "Оформить страховку"}
           </Button>
         )}

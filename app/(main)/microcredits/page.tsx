@@ -1,8 +1,8 @@
-import CardGrid from "@/components/microcredits/CardGrid";
-import Faq from "@/components/microcredits/Faq";
-import Hero from "@/components/microcredits/Hero";
-import LoanForm from "@/components/microcredits/LoanForm";
-import DataTable from "@/components/microcredits/Table";
+import CardGrid from "./_components/CardGrid";
+import Faq from "./_components/Faq";
+import Hero from "./_components/Hero";
+import LoanForm from "./_components/LoanForm";
+import DataTable from "./_components/Table";
 
 export default function Home() {
   return (

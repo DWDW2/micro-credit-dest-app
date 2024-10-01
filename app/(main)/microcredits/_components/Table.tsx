@@ -1,12 +1,12 @@
 import React from "react";
 import {
   Table,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
   TableHeader,
-} from "../ui/table";
+  TableCell,
+  TableRow,
+  TableHead,
+  TableBody,
+} from "@/components/ui/table";
 
 export default function DataTable() {
   return (

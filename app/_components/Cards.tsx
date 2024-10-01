@@ -47,7 +47,7 @@ export default function Cards() {
       </div>
 
       <div className="space-y-10 p-4">
-        <div className="p-8 bg-white rounded-xl max-w-6xl">
+        <div className="p-8 bg-white rounded-xl max-w-6xl mx-auto">
           <h3 className="text-4xl font-bold mb-10 font-aeroport">
             Как оформить туристическую страховку
           </h3>

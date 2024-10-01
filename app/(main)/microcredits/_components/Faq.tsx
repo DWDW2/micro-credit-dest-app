@@ -1,10 +1,10 @@
 import React from "react";
 import {
   Accordion,
+  AccordionItem,
   AccordionContent,
   AccordionTrigger,
-  AccordionItem,
-} from "../ui/accordion";
+} from "@/components/ui/accordion";
 
 export default function Faq() {
   return (

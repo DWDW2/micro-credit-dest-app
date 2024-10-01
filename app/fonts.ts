@@ -1,5 +1,5 @@
 import LocalFont from "next/font/local";
-import { Inter, Open_Sans } from "next/font/google";
+import { Inter, Open_Sans, Space_Grotesk } from "next/font/google";
 
 const inter = Inter({
   subsets: [
@@ -29,4 +29,10 @@ const openSans = Open_Sans({
   variable: "--font-sans",
 });
 
-export { aeroport, inter, aeroportRegular, openSans };
+const space_grotesk = Space_Grotesk({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+});
+
+export { aeroport, inter, aeroportRegular, openSans, space_grotesk };

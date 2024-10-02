@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
@@ -12,7 +12,7 @@ import TravelInsuranceDialog from "./TravelDiolog";
 import { cn } from "@/lib/utils";
 import FloatingLabel from "./FloatingLabel";
 import PopCalendar from "./PopCalendar";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import CountrySelect from "./CountrySelect";
 
 export function CalcRefactored() {
@@ -290,10 +290,11 @@ export function CalcRefactored() {
             date={endDate}
             setDate={setEndDate}
             desc="Возврощаетесь"
+            startDate={startDate}
           />
           <FloatingLabel setAge={setAge} age={age} />
           <Button
-            className="bg-[#00303f] text-white mt-4"
+            className="bg-primary text-white mt-4"
             onClick={handleGetPrice}
             disabled={isLoading}
           >

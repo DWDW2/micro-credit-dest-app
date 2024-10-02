@@ -11,12 +11,15 @@ const config: Config = {
     extend: {
       colors: {
         background: "#f5f4f2",
-        primary: "#002938",
+        primary: "#9193ff",
         primaryText: "#181e24",
         secondaryText: "#636f7d",
       },
       letterSpacing: {
         title: "0.035em",
+      },
+      lineHeight: {
+        tighter: "1.1em",
       },
       fontFamily: {
         aeroport: "var(--font-aeroport)",

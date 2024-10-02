@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { format, isBefore } from "date-fns";
+import { format, isBefore, isEqual } from "date-fns";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 
@@ -17,9 +17,10 @@ type Props = {
   setDate: Dispatch<SetStateAction<Date | undefined>>;
   date: Date | undefined;
   desc: string;
+  startDate?: Date | undefined;
 };
 
-export default function PopCalendar({ setDate, date, desc }: Props) {
+export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
   const today = new Date();
 
   const handleSelect = (selectedDate: Date | undefined) => {
@@ -28,7 +29,12 @@ export default function PopCalendar({ setDate, date, desc }: Props) {
         toast.error("Выберете дату, которая отличается от сегоднешней");
         return;
       }
-      setDate(selectedDate);
+      if (startDate) {
+        if (isEqual(selectedDate, startDate)) {
+          toast.error("Вы не можете выбрать один и тот же день");
+        }
+      }
+      if (isBefore(selectedDate, startDate)) setDate(selectedDate);
     }
   };
 

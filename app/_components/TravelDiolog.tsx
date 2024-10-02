@@ -109,7 +109,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       setIsSubmitting(false);
     }
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setIIN(value);
 
@@ -156,8 +156,8 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
     // Compare the calculated control digit with the last digit of the IIN
     return controlDigit === digits[11];
   }
-  const handlePhoneNumberChange = (e) => {
-    let input = e.target.value.replace(/\D/g, "");
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value.replace(/\D/g, "");
     if (input.length === 0) {
       setPhoneNumber("");
     } else {

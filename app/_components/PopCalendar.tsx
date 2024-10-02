@@ -34,7 +34,12 @@ export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
           toast.error("Вы не можете выбрать один и тот же день");
         }
       }
-      if (isBefore(selectedDate, startDate)) setDate(selectedDate);
+      if (startDate) {
+        if (isBefore(selectedDate, startDate)) {
+          toast.error("Вы не можете выбрать один и тот же день");
+        }
+      }
+      setDate(selectedDate);
     }
   };
 

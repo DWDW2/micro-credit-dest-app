@@ -1,9 +1,8 @@
 import { Mail } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
-type Props = {};
-
-export default function Footer({}: Props) {
+export default function Footer() {
   return (
     <footer className="bg-white mt-12 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,6 +36,11 @@ export default function Footer({}: Props) {
                 boffer.kz@gmail.com
               </a>
             </div>
+            <Link href={"/privacy"}>
+              <p className="text-sm hover:underline">
+                Политика конфиденциальности
+              </p>
+            </Link>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-sm text-gray-500 text-center">

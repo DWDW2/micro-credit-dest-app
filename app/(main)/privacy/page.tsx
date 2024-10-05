@@ -1,7 +1,12 @@
-import React from "react";
+import PDFViewer from "@/components/PDFviewer";
 
-type Props = {};
+const PrivacyPolicyPage = () => {
+  return (
+    <div className="container">
+      <h1>Privacy Policy</h1>
+      <PDFViewer pdfUrl="./Terms.pdf" />
+    </div>
+  );
+};
 
-export default function page({}: Props) {
-  return <div>page</div>;
-}
+export default PrivacyPolicyPage;

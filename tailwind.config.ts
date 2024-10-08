@@ -25,7 +25,6 @@ const config: Config = {
         aeroport: "var(--font-aeroport)",
         aeroportRegular: "var(--font-aeroportRegular)",
         opensans: "var(--font-sans)",
-        spaceGrotesk: "var(--font-space-grotesk)",
       },
       borderRadius: {
         lg: "var(--radius)",

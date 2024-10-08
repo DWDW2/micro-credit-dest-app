@@ -11,7 +11,7 @@ export default function Home() {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="flex flex-col lg:flex-row items-center justify-between p-10 sm:p-10">
             <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0">
-              <h1 className="font-spaceGrotesk font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#9193ff] mb-4">
+              <h1 className="font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#9193ff] mb-4">
                 BestOffer
               </h1>
               <p className="font-aeroport text-sm sm:text-xl leading-tighter">

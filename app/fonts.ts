@@ -1,17 +1,5 @@
 import LocalFont from "next/font/local";
-import { Inter, Open_Sans, Space_Grotesk } from "next/font/google";
-
-const inter = Inter({
-  subsets: [
-    "greek",
-    "cyrillic",
-    "cyrillic-ext",
-    "greek-ext",
-    "latin",
-    "latin-ext",
-  ],
-  weight: ["800", "400", "500", "100", "200", "300"],
-});
+import { Open_Sans } from "next/font/google";
 
 const aeroport = LocalFont({
   src: "./fonts/Aeroport-bold-trial.otf",
@@ -29,10 +17,4 @@ const openSans = Open_Sans({
   variable: "--font-sans",
 });
 
-const space_grotesk = Space_Grotesk({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-});
-
-export { aeroport, inter, aeroportRegular, openSans, space_grotesk };
+export { aeroport, aeroportRegular, openSans };

@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -200,25 +200,28 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
             </Label>
           </div>
           <div>
-            <div>
-              <Label htmlFor="iin" className="text-sm font-medium">
-                ИИН
-              </Label>
-              <Input
-                id="iin"
-                value={iin}
-                onChange={handleInputChange}
-                placeholder="000000000000"
-                className="mt-1"
-              />
-              {isValid === null ? (
-                <p>Please enter a 12-digit IIN.</p>
-              ) : isValid ? (
-                <p style={{ color: "green" }}>IIN is valid.</p>
-              ) : (
-                <p style={{ color: "red" }}>IIN is invalid.</p>
-              )}
-            </div>
+            <Label htmlFor="iin" className="text-sm font-medium">
+              ИИН
+            </Label>
+            <Input
+              id="iin"
+              value={iin}
+              onChange={handleInputChange}
+              placeholder="000000000000"
+              className="mt-1 mb-2"
+              maxLength={12}
+            />
+            {isValid === null ? (
+              <p className="text-sm">Пожалуйста введите 12-значный ИИН.</p>
+            ) : isValid ? (
+              <p style={{ color: "green" }} className="text-sm">
+                ИИН правильный.
+              </p>
+            ) : (
+              <p style={{ color: "red" }} className="text-sm">
+                ИИН не правильный.
+              </p>
+            )}
           </div>
           <div>
             <Label htmlFor="phone" className="text-sm font-medium">

@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import {
-  aeroport,
-  aeroportRegular,
-  inter,
-  openSans,
-  space_grotesk,
-} from "./fonts";
+import { aeroport, aeroportRegular, openSans } from "./fonts";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-// import Footer from "@/components/Footer";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "BestOffer.kz - Финансовый маркетплейс для выгодных предложений",
@@ -51,12 +45,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${aeroportRegular.variable} ${aeroport.variable} ${openSans.variable} ${space_grotesk.variable} ${space_grotesk.className} antialiased bg-background`}
+        className={` ${aeroportRegular.variable} ${aeroport.variable} ${openSans.variable} antialiased bg-background`}
       >
         <Navbar />
 
         {children}
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );

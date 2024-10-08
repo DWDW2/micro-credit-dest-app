@@ -18,34 +18,25 @@ type Props = {
   date: Date | undefined;
   desc: string;
   startDate?: Date | undefined;
-  endDate: Date | undefined;
-  isFirst: boolean;
 };
 
-export default function PopCalendar({
-  setDate,
-  date,
-  desc,
-  startDate,
-  endDate,
-  isFirst,
-}: Props) {
+export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
   const today = new Date();
 
   const handleSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      if (isBefore(selectedDate, today)) {
-        toast.error("Выберете дату, которая отличается от сегоднешней");
+      if (isBefore(selectedDate, today) || isEqual(selectedDate, today)) {
+        toast.error("Выберите дату позже сегодняшнего дня");
         return;
       }
       if (startDate) {
         if (isEqual(selectedDate, startDate)) {
-          toast.error("Вы не можете выбрать один и тот же день");
+          toast.error("Вы не можете выбрать тот же день");
+          return;
         }
-      }
-      if (startDate) {
         if (isBefore(selectedDate, startDate)) {
-          toast.error("Вы не можете выбрать один и тот же день");
+          toast.error("Выберите дату позже начальной даты");
+          return;
         }
       }
       setDate(selectedDate);
@@ -78,24 +69,20 @@ export default function PopCalendar({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          {isFirst ? (
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={handleSelect}
-              modifiers={}
-              initialFocus
-              required
-            />
-          ) : (
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={handleSelect}
-              initialFocus
-              required
-            />
-          )}
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleSelect}
+            disabled={(date) =>
+              isBefore(date, today) ||
+              isEqual(date, today) ||
+              (startDate
+                ? isBefore(date, startDate) || isEqual(date, startDate)
+                : false)
+            }
+            initialFocus
+            required
+          />
         </PopoverContent>
       </Popover>
     </div>

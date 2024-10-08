@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React, { Dispatch, SetStateAction } from "react";
 
 type Props = {
@@ -7,21 +8,24 @@ type Props = {
 
 export default function FloatingLabel({ setAge, age }: Props) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <input
         type="number"
-        className="w-full h-11 px-2 rounded-md border bg-transparent border-neutral-200 peer focus:outline-neutral-400"
-        placeholder="e.g 34"
+        className={cn(
+          "peer w-full h-12 px-4 text-sm border rounded-md bg-transparent border-neutral-200",
+          "focus:outline-none focus:border-neutral-400"
+        )}
+        placeholder=" "
         value={age}
         onChange={(e) => setAge(e.target.value)}
       />
       <label
-        className={`text-sm text-gray-500 font-medium absolute -translate-y-1/2 left-2 z-20 px-1 transition-all duration-200 bg-white
-        ${
-          age
-            ? "top-0 text-xs text-gray-600"
-            : "top-1/2 peer-focus:top-0 peer-focus:text-xs peer-focus:text-gray-600"
-        }`}
+        className={cn(
+          "absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 transition-all duration-300 pointer-events-none bg-white px-2", // Padding increased
+          "peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:text-gray-500",
+          "peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs peer-focus:text-gray-500",
+          age && "top-0 -translate-y-1/2 text-xs"
+        )}
       >
         Возраст туриста
       </label>

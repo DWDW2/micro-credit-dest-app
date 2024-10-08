@@ -18,9 +18,18 @@ type Props = {
   date: Date | undefined;
   desc: string;
   startDate?: Date | undefined;
+  endDate: Date | undefined;
+  isFirst: boolean;
 };
 
-export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
+export default function PopCalendar({
+  setDate,
+  date,
+  desc,
+  startDate,
+  endDate,
+  isFirst,
+}: Props) {
   const today = new Date();
 
   const handleSelect = (selectedDate: Date | undefined) => {
@@ -69,13 +78,24 @@ export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={handleSelect}
-            initialFocus
-            required
-          />
+          {isFirst ? (
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={handleSelect}
+              modifiers={}
+              initialFocus
+              required
+            />
+          ) : (
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={handleSelect}
+              initialFocus
+              required
+            />
+          )}
         </PopoverContent>
       </Popover>
     </div>

@@ -12,7 +12,7 @@ import TravelInsuranceDialog from "./TravelDiolog";
 import { cn } from "@/lib/utils";
 import FloatingLabel from "./FloatingLabel";
 import PopCalendar from "./PopCalendar";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import CountrySelect from "./CountrySelect";
 
 export function CalcRefactored() {

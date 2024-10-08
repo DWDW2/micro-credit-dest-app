@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { aeroport, aeroportRegular, openSans } from "./fonts";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import dynamic from "next/dynamic";
+
+const Navbar = dynamic(() => import("@/components/Navbar"));
 
 export const metadata: Metadata = {
   title: "BestOffer.kz - Финансовый маркетплейс для выгодных предложений",

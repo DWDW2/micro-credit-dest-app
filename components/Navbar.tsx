@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Navbar({}) {
   return (
-    <nav className="bg-white shadow-md p-5">
+    <nav className="bg-white p-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Image
           src={"./logo.png"}

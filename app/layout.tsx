@@ -3,6 +3,7 @@ import { aeroport, aeroportRegular, openSans } from "./fonts";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import dynamic from "next/dynamic";
+import { YandexMetrica } from "@/components/YandexProvider";
 
 const Navbar = dynamic(() => import("@/components/Navbar"));
 
@@ -49,10 +50,11 @@ export default function RootLayout({
       <body
         className={` ${aeroportRegular.variable} ${aeroport.variable} ${openSans.variable} antialiased bg-background`}
       >
-        <Navbar />
-
-        {children}
-        <Footer />
+        <YandexMetrica>
+          <Navbar />
+          {children}
+          <Footer />
+        </YandexMetrica>
       </body>
     </html>
   );

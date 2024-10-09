@@ -45,6 +45,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   const [issueDate, setIssueDate] = useState("");
   const [issuedBy, setIssuedBy] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [plainPhoneNumber, setPlainPhoneNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderResponse, setOrderResponse] = useState<OrderResponse | null>(
     null
@@ -64,7 +65,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       end_date: format(endDate, "yyyy-MM-dd"),
       nomad_customer: {
         iin,
-        phone_number: phoneNumber,
+        phone_number: plainPhoneNumber,
         email,
         address,
       },
@@ -125,20 +126,16 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       return false;
     }
 
-    // Convert the IIN into an array of numbers
     const digits = iin.split("").map(Number);
 
     const weights1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-    // First cycle sum
     const sum1 = digits
       .slice(0, 11)
       .reduce((sum, digit, index) => sum + digit * weights1[index], 0);
 
-    // Calculate mod 11 for the first cycle
     let controlDigit = sum1 % 11;
 
-    // If control digit is 10, use the second cycle of weights
     if (controlDigit === 10) {
       const weights2 = [3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2];
       const sum2 = digits
@@ -147,21 +144,20 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       controlDigit = sum2 % 11;
     }
 
-    // If the control digit is still 10, the IIN is invalid
     if (controlDigit === 10) {
       console.log("invalid iin");
       return false;
     }
 
-    // Compare the calculated control digit with the last digit of the IIN
     return controlDigit === digits[11];
   }
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.replace(/\D/g, "");
-    if (input.length === 0) {
-      setPhoneNumber("");
-    } else {
-      let formattedNumber = "+7 (" + input.substring(1, 4);
+
+    // Format the number for display
+    let formattedNumber = "";
+    if (input.length > 0) {
+      formattedNumber = "+7 (" + input.substring(1, 4);
       if (input.length > 4) {
         formattedNumber += ") " + input.substring(4, 7);
       }
@@ -171,8 +167,12 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       if (input.length > 9) {
         formattedNumber += "-" + input.substring(9, 11);
       }
-      setPhoneNumber(formattedNumber);
     }
+
+    setPhoneNumber(formattedNumber);
+
+    const plainNumber = input.length > 0 ? input : "";
+    setPlainPhoneNumber(plainNumber);
   };
 
   return (

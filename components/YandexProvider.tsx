@@ -5,7 +5,7 @@ import { PropsWithChildren, useCallback, useEffect } from "react";
 import ym, { YMInitializer } from "react-yandex-metrika";
 
 export const enableYM =
-  process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_YM_ID;
+  process.env.NODE_ENV === "production" && process.env.YM_ID;
 
 export const YandexMetrica = ({ children }: PropsWithChildren) => {
   const hit = useCallback((url: string) => {

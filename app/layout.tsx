@@ -3,7 +3,7 @@ import { aeroport, aeroportRegular, openSans } from "./fonts";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import dynamic from "next/dynamic";
-import { YandexMetrica } from "@/components/YandexProvider";
+import { YandexMetrica } from "@/components/YandexMetrika";
 
 const Navbar = dynamic(() => import("@/components/Navbar"));
 

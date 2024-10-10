@@ -1,5 +1,4 @@
 "use client";
-
 import React, { Dispatch, SetStateAction } from "react";
 import {
   Popover,
@@ -12,19 +11,32 @@ import { Calendar } from "@/components/ui/calendar";
 import { format, isBefore, isEqual } from "date-fns";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { ru } from "date-fns/locale";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 type Props = {
   setDate: Dispatch<SetStateAction<Date | undefined>>;
   date: Date | undefined;
   desc: string;
   startDate?: Date | undefined;
+  passport: boolean;
 };
 
-export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
+export default function PopCalendar({
+  setDate,
+  date,
+  desc,
+  startDate,
+  passport,
+}: Props) {
   const today = new Date();
+  const currentYear = new Date().getFullYear();
+  const fromYear = 2000;
+  const toYear = currentYear;
 
   const handleSelect = (selectedDate: Date | undefined) => {
-    if (selectedDate) {
+    if (!passport && selectedDate) {
       if (isBefore(selectedDate, today) || isEqual(selectedDate, today)) {
         toast.error("Выберите дату позже сегодняшнего дня");
         return;
@@ -39,8 +51,8 @@ export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
           return;
         }
       }
-      setDate(selectedDate);
     }
+    setDate(selectedDate);
   };
 
   return (
@@ -57,32 +69,50 @@ export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
             <span
               className={cn(
                 "absolute left-3 text-gray-500 transition-all duration-300",
-                date
+                !passport && date
                   ? "-top-2 bg-white px-2 text-xs"
-                  : "text-sm peer-focus:top-1 peer-focus:text-xs"
+                  : "text-sm peer-focus:top-1 peer-focus:text-xs",
+                date && "hidden"
               )}
             >
               {desc}
             </span>
-            <span>{date ? format(date, "PPP") : ""}</span>
+            <span>
+              {date ? format(date, "d MMMM yyyy", { locale: ru }) : ""}
+            </span>
             <CalendarIcon className="mr-2 h-4 w-4" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={handleSelect}
-            disabled={(date) =>
-              isBefore(date, today) ||
-              isEqual(date, today) ||
-              (startDate
-                ? isBefore(date, startDate) || isEqual(date, startDate)
-                : false)
-            }
-            initialFocus
-            required
-          />
+          {passport ? (
+            <DayPicker
+              mode="single"
+              locale={ru}
+              selected={date}
+              onSelect={setDate}
+              captionLayout="dropdown"
+              fromYear={fromYear}
+              toYear={toYear}
+            />
+          ) : (
+            <Calendar
+              mode="single"
+              className="p-0"
+              locale={ru}
+              selected={date}
+              onSelect={handleSelect}
+              disabled={(date) =>
+                !passport &&
+                (isBefore(date, today) ||
+                  isEqual(date, today) ||
+                  (startDate
+                    ? isBefore(date, startDate) || isEqual(date, startDate)
+                    : false))
+              }
+              initialFocus
+              required
+            />
+          )}
         </PopoverContent>
       </Popover>
     </div>

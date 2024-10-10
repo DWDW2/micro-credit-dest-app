@@ -13,6 +13,8 @@ import { ru } from "date-fns/locale";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox";
+import PopCalendar from "./PopCalendar";
+import Link from "next/link";
 
 interface TravelInsuranceDialogProps {
   countryId: number;
@@ -42,7 +44,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [fullNameInLatin, setFullNameInLatin] = useState("");
   const [documentNumber, setDocumentNumber] = useState("");
-  const [issueDate, setIssueDate] = useState("");
+  const [issueDate, setIssueDate] = useState<Date | undefined>();
   const [issuedBy, setIssuedBy] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [plainPhoneNumber, setPlainPhoneNumber] = useState("");
@@ -286,18 +288,15 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
             />
           </div>
           <div>
-            <Label htmlFor="passportDate" className="text-sm font-medium">
+            <Label htmlFor="passportDate" className="text-sm font-medium mb-1">
               Дата выдачи паспорта
             </Label>
-            <div className="relative mt-1">
-              <Input
-                id="passportDate"
-                value={issueDate}
-                onChange={(e) => setIssueDate(e.target.value)}
-                type="date"
-                className="pr-10"
-              />
-            </div>
+            <PopCalendar
+              desc="дд.ММ.гг"
+              setDate={setIssueDate}
+              date={issueDate}
+              passport={true}
+            />
           </div>
           <div>
             <Label htmlFor="passportAuthority" className="text-sm font-medium">
@@ -316,8 +315,10 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
               onClick={() => setCheckVal(!checkVal)}
             />
             <span className="text-xs text-gray-500">
-              Отправляя заявку, вы соглашаетесь на сбор и обработку своих
-              персональных данных
+              Отправляя заявку, вы соглашаетесь на{" "}
+              <Link href={"/privacy"} className="hover:underline text-blue-500">
+                сбор и обработку своих персональных данных
+              </Link>
             </span>
           </div>
         </div>
@@ -335,13 +336,15 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
             </Button>
           </div>
         ) : (
-          <Button
-            type="submit"
-            className="w-full mt-6"
-            disabled={isSubmitting || !checkVal}
-          >
-            {isSubmitting ? "Оформление..." : "Оформить страховку"}
-          </Button>
+          <>
+            <Button
+              type="submit"
+              className="w-full mt-6"
+              disabled={isSubmitting || !checkVal}
+            >
+              {isSubmitting ? "Оформление..." : "Оформить страховку"}
+            </Button>
+          </>
         )}
       </form>
     </DialogContent>

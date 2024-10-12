@@ -327,7 +327,12 @@ export function CalcRefactored() {
                           </Button>
                         </DialogTrigger>
                         <TravelInsuranceDialog
-                          country={country}
+                          country={
+                            countries.find((c) => c.alpha_code === country)
+                              ?.country_name
+                              ? country
+                              : ""
+                          }
                           countryId={result.country.external_info.id}
                           insuranceSumId={result.results[0].external_info.id}
                           startDate={startDate!}

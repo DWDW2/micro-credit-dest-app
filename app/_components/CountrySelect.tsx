@@ -9,7 +9,10 @@ import {
 import { cn } from "@/lib/utils";
 
 type Props = {
-  countries: string[];
+  countries: {
+    alpha_code: string;
+    country_name: string;
+  }[];
   value: string;
   isOpenSelect: boolean;
   setIsOpenSelect: Dispatch<SetStateAction<boolean>>;
@@ -43,9 +46,9 @@ export default function CountrySelect({
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        {countries.map((c) => (
-          <SelectItem key={c} value={c}>
-            {c}
+        {countries.map((c, index) => (
+          <SelectItem key={index} value={c.alpha_code}>
+            {c.country_name}
           </SelectItem>
         ))}
       </SelectContent>

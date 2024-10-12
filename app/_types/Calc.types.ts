@@ -58,3 +58,8 @@ export interface InsuranceFormData {
   nomad_customer: NomadCustomer;
   passport: Passport;
 }
+
+export interface APIcountries {
+  alpha_code: string;
+  country_name: string;
+}

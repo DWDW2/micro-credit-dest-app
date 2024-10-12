@@ -11,7 +11,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { format, isBefore, isEqual } from "date-fns";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
-import DayPickerDropdown from "./DayPickerDropdown";
 import { ru } from "date-fns/locale";
 
 type Props = {
@@ -65,10 +64,9 @@ export default function PopCalendar({
             <span
               className={cn(
                 "absolute left-3 text-gray-500 transition-all duration-300",
-                !passport && date
+                date
                   ? "-top-2 bg-white px-2 text-xs"
-                  : "text-sm peer-focus:top-1 peer-focus:text-xs",
-                date && passport && "hidden"
+                  : "text-sm peer-focus:top-1 peer-focus:text-xs"
               )}
             >
               {desc}
@@ -80,26 +78,21 @@ export default function PopCalendar({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          {passport ? (
-            <DayPickerDropdown setDate={setDate} date={date} />
-          ) : (
-            <Calendar
-              mode="single"
-              locale={ru}
-              selected={date}
-              onSelect={handleSelect}
-              disabled={(date) =>
-                !passport &&
-                (isBefore(date, today) ||
-                  isEqual(date, today) ||
-                  (startDate
-                    ? isBefore(date, startDate) || isEqual(date, startDate)
-                    : false))
-              }
-              initialFocus
-              required
-            />
-          )}
+          <Calendar
+            mode="single"
+            locale={ru}
+            selected={date}
+            onSelect={handleSelect}
+            disabled={(date) =>
+              isBefore(date, today) ||
+              isEqual(date, today) ||
+              (startDate
+                ? isBefore(date, startDate) || isEqual(date, startDate)
+                : false)
+            }
+            initialFocus
+            required
+          />
         </PopoverContent>
       </Popover>
     </div>

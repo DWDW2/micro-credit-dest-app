@@ -1,9 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { APIResponse, InsuranceOption } from "../_types/Calc.types";
+import {
+  APIResponse,
+  InsuranceOption,
+  APIcountries,
+} from "../_types/Calc.types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
@@ -14,106 +18,37 @@ import FloatingLabel from "./FloatingLabel";
 import PopCalendar from "./PopCalendar";
 import { Toaster } from "react-hot-toast";
 import CountrySelect from "./CountrySelect";
+import Image from "next/image";
 
 export function CalcRefactored() {
   const [country, setCountry] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [age, setAge] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [results, setResults] = useState<APIResponse[]>([]);
   const [error, setError] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
-  // const [countries, setCountries] = useState<string[]>([""]);
-  // console.log(error);
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     // setLoading(true);
-  //     try {
-  //       const response = await axios.get<string[]>(
-  //         "https://bestoffer.kz/api/mst/countries"
-  //       );
-  //       setCountries(response?.data);
-  //     } catch (err: any) {
-  //       // setError(err.message || 'Something went wrong');
-  //     } finally {
-  //       // setLoading(false);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
-  // console.log(countries);
-  const countries = [
-    "Австралия",
-    "Австрия",
-    "Азербайджан",
-    "Албания",
-    "Алжир",
-    "Ангола",
-    "Аргентина",
-    "Армения",
-    "Беларусь",
-    "Бельгия",
-    "Болгария",
-    "Бразилия",
-    "Великобритания",
-    "Венгрия",
-    "Вьетнам",
-    "Германия",
-    "Греция",
-    "Грузия",
-    "Дания",
-    "Египет",
-    "Израиль",
-    "Индия",
-    "Индонезия",
-    "Иран",
-    "Ирландия",
-    "Исландия",
-    "Испания",
-    "Италия",
-    "Казахстан",
-    "Канада",
-    "Кипр",
-    "Китай",
-    "Колумбия",
-    "Куба",
-    "Латвия",
-    "Литва",
-    "Люксембург",
-    "Малайзия",
-    "Мальта",
-    "Марокко",
-    "Мексика",
-    "Нидерланды",
-    "Новая Зеландия",
-    "Норвегия",
-    "ОАЭ",
-    "Польша",
-    "Португалия",
-    "Россия",
-    "Румыния",
-    "Сербия",
-    "Сингапур",
-    "Словакия",
-    "Словения",
-    "США",
-    "Таиланд",
-    "Турция",
-    "Украина",
-    "Финляндия",
-    "Франция",
-    "Хорватия",
-    "Черногория",
-    "Чехия",
-    "Чили",
-    "Швейцария",
-    "Швеция",
-    "Эстония",
-    "Южная Корея",
-    "Япония",
-  ];
+  const [countries, setCountries] = useState<APIcountries[]>([]);
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(!loading);
+      try {
+        const response = await axios.get<APIcountries[]>(
+          "https://bestoffer.kz/api/mst/countries"
+        );
+        setCountries(response?.data);
+      } catch (err: any) {
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(loading!);
+      }
+    };
+    getData();
+  }, []);
+
   const handleGetPrice = async (): Promise<void> => {
     if (!startDate || !endDate || !country || !age) {
       setError("Please select both start and end dates.");
@@ -272,7 +207,21 @@ export function CalcRefactored() {
   return (
     <div className="mb-8 space-y-4 font-opensans">
       <Toaster />
-      <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl">
+      {/* <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button className="font-aeroportRegular w-full md:w-auto">
+            Оформить страховку
+          </Button>
+        </DialogTrigger>
+        <TravelInsuranceDialog
+          country={country}
+          countryId={34}
+          insuranceSumId={34}
+          startDate={startDate ?? new Date()}
+          endDate={endDate ?? new Date()}
+        />
+      </Dialog> */}
+      <div className="md:max-w-6xl md:mx-auto p-8 bg-white rounded-xl mx-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <CountrySelect
             value={country}
@@ -306,7 +255,7 @@ export function CalcRefactored() {
       </div>
 
       {results.length > 0 && (
-        <div className="max-w-6xl mx-auto">
+        <div className="md:max-w-6xl md:mx-auto mx-8">
           <h2 className="text-xl font-bold mb-2">Результаты:</h2>
           <div className="space-y-4">
             {results
@@ -328,7 +277,7 @@ export function CalcRefactored() {
                   )}
                 >
                   <div className="flex items-center space-x-4 md:space-x-4 md:w-[25%]">
-                    <img
+                    <Image
                       src={`${result.insurance_company.name}.svg`}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
@@ -336,6 +285,8 @@ export function CalcRefactored() {
                       }}
                       alt={result.insurance_company.name}
                       className="w-16 h-16 object-contain rounded-xl border-2 border-gray-300 p-1"
+                      width={64}
+                      height={64}
                     />
                     <div>
                       <h3 className="font-aeroport text-xl font-bold">
@@ -379,8 +330,8 @@ export function CalcRefactored() {
                           country={country}
                           countryId={result.country.external_info.id}
                           insuranceSumId={result.results[0].external_info.id}
-                          startDate={startDate ?? new Date()}
-                          endDate={endDate ?? new Date()}
+                          startDate={startDate!}
+                          endDate={endDate!}
                         />
                       </Dialog>
                     ) : (

@@ -13,8 +13,8 @@ import { ru } from "date-fns/locale";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Checkbox } from "@/components/ui/checkbox";
-import PopCalendar from "./PopCalendar";
 import Link from "next/link";
+import DateInput from "./DateInput";
 
 interface TravelInsuranceDialogProps {
   countryId: number;
@@ -44,7 +44,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [fullNameInLatin, setFullNameInLatin] = useState("");
   const [documentNumber, setDocumentNumber] = useState("");
-  const [issueDate, setIssueDate] = useState<Date | undefined>();
+  const [issueDate, setIssueDate] = useState<string>("");
   const [issuedBy, setIssuedBy] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [plainPhoneNumber, setPlainPhoneNumber] = useState("");
@@ -74,7 +74,7 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       passport: {
         full_name_in_latin: fullNameInLatin,
         document_number: documentNumber,
-        issue_date: issueDate,
+        issue_date: format(issueDate!, "yyyy-MM-dd"),
         issued_by: issuedBy,
       },
     };
@@ -87,7 +87,6 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
       console.log("Order submitted successfully:", response.data);
       setOrderResponse(response.data);
       toast.success("Страховка успешно оформлена!");
-      // Handle successful submission (e.g., close dialog)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error submitting order:", error.response?.data);
@@ -147,7 +146,6 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
     }
 
     if (controlDigit === 10) {
-      console.log("invalid iin");
       return false;
     }
 
@@ -288,15 +286,10 @@ const TravelInsuranceDialog: React.FC<TravelInsuranceDialogProps> = ({
             />
           </div>
           <div>
-            <Label htmlFor="passportDate" className="text-sm font-medium mb-1">
+            <Label htmlFor="passportDate" className="text-sm font-medium">
               Дата выдачи паспорта
             </Label>
-            <PopCalendar
-              desc="дд.ММ.гг"
-              setDate={setIssueDate}
-              date={issueDate}
-              passport={true}
-            />
+            <DateInput value={issueDate} onChange={setIssueDate} />
           </div>
           <div>
             <Label htmlFor="passportAuthority" className="text-sm font-medium">

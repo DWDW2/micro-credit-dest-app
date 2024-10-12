@@ -272,20 +272,6 @@ export function CalcRefactored() {
   return (
     <div className="mb-8 space-y-4 font-opensans">
       <Toaster />
-      {/* <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button className="font-aeroportRegular w-full md:w-auto">
-            Оформить страховку
-          </Button>
-        </DialogTrigger>
-        <TravelInsuranceDialog
-          country={country}
-          countryId={34}
-          insuranceSumId={34}
-          startDate={startDate ?? new Date()}
-          endDate={endDate ?? new Date()}
-        />
-      </Dialog> */}
       <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <CountrySelect

@@ -11,9 +11,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { format, isBefore, isEqual } from "date-fns";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import DayPickerDropdown from "./DayPickerDropdown";
 import { ru } from "date-fns/locale";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 
 type Props = {
   setDate: Dispatch<SetStateAction<Date | undefined>>;
@@ -31,9 +30,6 @@ export default function PopCalendar({
   passport,
 }: Props) {
   const today = new Date();
-  const currentYear = new Date().getFullYear();
-  const fromYear = 2000;
-  const toYear = currentYear;
 
   const handleSelect = (selectedDate: Date | undefined) => {
     if (!passport && selectedDate) {
@@ -72,7 +68,7 @@ export default function PopCalendar({
                 !passport && date
                   ? "-top-2 bg-white px-2 text-xs"
                   : "text-sm peer-focus:top-1 peer-focus:text-xs",
-                date && "hidden"
+                date && passport && "hidden"
               )}
             >
               {desc}
@@ -85,19 +81,10 @@ export default function PopCalendar({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
           {passport ? (
-            <DayPicker
-              mode="single"
-              locale={ru}
-              selected={date}
-              onSelect={setDate}
-              captionLayout="dropdown"
-              fromYear={fromYear}
-              toYear={toYear}
-            />
+            <DayPickerDropdown setDate={setDate} date={date} />
           ) : (
             <Calendar
               mode="single"
-              className="p-0"
               locale={ru}
               selected={date}
               onSelect={handleSelect}

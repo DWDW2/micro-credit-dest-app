@@ -329,9 +329,7 @@ export function CalcRefactored() {
                         <TravelInsuranceDialog
                           country={
                             countries.find((c) => c.alpha_code === country)
-                              ?.country_name
-                              ? country
-                              : ""
+                              ?.country_name || ""
                           }
                           countryId={result.country.external_info.id}
                           insuranceSumId={result.results[0].external_info.id}

@@ -19,8 +19,14 @@ import PopCalendar from "./PopCalendar";
 import { Toaster } from "react-hot-toast";
 import CountrySelect from "./CountrySelect";
 import Image from "next/image";
+import ResultsComponent from "./ResultsComponent";
+import RenderVariants from "./RenderVariants";
 
-export function CalcRefactored() {
+type Props = {
+  countries: APIcountries[];
+};
+
+export function CalcRefactored({ countries }: Props) {
   const [country, setCountry] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -30,24 +36,24 @@ export function CalcRefactored() {
   const [results, setResults] = useState<APIResponse[]>([]);
   const [error, setError] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
-  const [countries, setCountries] = useState<APIcountries[]>([]);
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(!loading);
-      try {
-        const response = await axios.get<APIcountries[]>(
-          "https://bestoffer.kz/api/mst/countries"
-        );
-        setCountries(response?.data);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(loading!);
-      }
-    };
-    getData();
-  }, []);
+
+  // const [countries, setCountries] = useState<APIcountries[]>([]);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setLoading(!loading);
+  //     try {
+  //       const response = await axios.get<APIcountries[]>(
+  //         "https://bestoffer.kz/api/mst/countries"
+  //       );
+  //       setCountries(response?.data);
+  //     } catch (err: any) {
+  //       setError(err.message || "Something went wrong");
+  //     } finally {
+  //       setLoading(loading!);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
 
   const handleGetPrice = async (): Promise<void> => {
     if (!startDate || !endDate || !country || !age) {
@@ -231,13 +237,11 @@ export function CalcRefactored() {
             setIsOpenSelect={setIsOpenSelect}
           />
           <PopCalendar
-            passport={false}
             date={startDate}
             setDate={setStartDate}
             desc="Улетаете"
           />
           <PopCalendar
-            passport={false}
             date={endDate}
             setDate={setEndDate}
             desc="Возвращаетесь"
@@ -253,7 +257,7 @@ export function CalcRefactored() {
           </Button>
         </div>
       </div>
-
+      <RenderVariants handleGetPrice={handleGetPrice} />
       {results.length > 0 && (
         <div className="md:max-w-6xl md:mx-auto mx-8">
           <h2 className="text-xl font-bold mb-2">Результаты:</h2>

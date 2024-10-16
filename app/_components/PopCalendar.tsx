@@ -18,20 +18,13 @@ type Props = {
   date: Date | undefined;
   desc: string;
   startDate?: Date | undefined;
-  passport: boolean;
 };
 
-export default function PopCalendar({
-  setDate,
-  date,
-  desc,
-  startDate,
-  passport,
-}: Props) {
+export default function PopCalendar({ setDate, date, desc, startDate }: Props) {
   const today = new Date();
 
   const handleSelect = (selectedDate: Date | undefined) => {
-    if (!passport && selectedDate) {
+    if (selectedDate) {
       if (isBefore(selectedDate, today) || isEqual(selectedDate, today)) {
         toast.error("Выберите дату позже сегодняшнего дня");
         return;

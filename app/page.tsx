@@ -1,8 +1,22 @@
 import React from "react";
 import { CalcRefactored } from "./_components/Refactor";
 import Cards from "./_components/Cards";
+import { APIcountries } from "./_types/Calc.types";
+import axios from "axios";
 
-export default function Home() {
+export default async function Home() {
+  const getData = async (): Promise<APIcountries[]> => {
+    try {
+      const response = await axios.get<APIcountries[]>(
+        "https://bestoffer.kz/api/mst/countries"
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  };
+  const countries = await getData();
   return (
     <>
       <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 min-h-max mt-14">
@@ -16,7 +30,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <CalcRefactored />
+      <CalcRefactored countries={countries} />
       <Cards />
     </>
   );
